@@ -11,7 +11,6 @@ from discord.ext import commands
 from text_checks import is_text_variant
 
 IMAGE_PATH = "meme.png"
-ANNOYING_CHANNEL_ID = 1472578525486780457
 LAST_SENT: dict[int, float] = {}
 RATE_LIMIT_SECONDS = 3
 
@@ -57,27 +56,26 @@ FURRY_EVENT = Event(
     reply_pool=("Furry detected - commencing ICBM strike.... 🚀💀",),
 )
 
-ALL_EVENTS = (AUTISM_EVENT, MEOW_EVENT, UWU_EVENT, FEMBOY_EVENT, FURRY_EVENT)
+ANNOYING_CHANNEL_ID = 1472578525486780457
+ANNOYING_EVENTS = (MEOW_EVENT, UWU_EVENT, FEMBOY_EVENT, FURRY_EVENT)
 
 
 async def do_reply(message: discord.Message, event: Event) -> bool:
     if not is_text_variant(message.content, event.triggers, verbose=CONFIG["verbose"]):
         return False
 
-    if message.channel.id == ANNOYING_CHANNEL_ID:
-        try:
-            await message.reply(event.random_reply())
-            print(f"Sent response to channel {message.channel.id}")
-            LAST_SENT[message.channel.id] = time.time()
-            return True
-        except Exception as e:
-            print("Failed to send:", e)
-            return False
-    return False
+    try:
+        await message.reply(event.random_reply())
+        print(f"Sent response to channel {message.channel.id}")
+        LAST_SENT[message.channel.id] = time.time()
+        return True
+    except Exception as e:
+        print("Failed to send:", e)
+        return False
 
 
-async def dispatch_event(message: discord.Message) -> bool:
-    shuffled_events = random.sample(ALL_EVENTS, len(ALL_EVENTS))
+async def dispatch_annoying_event(message: discord.Message) -> bool:
+    shuffled_events = random.sample(ANNOYING_EVENTS, len(ANNOYING_EVENTS))
 
     for event in shuffled_events:
         if await do_reply(message, event):
@@ -108,14 +106,8 @@ async def on_message(message: discord.Message) -> None:
     if now - last < RATE_LIMIT_SECONDS:
         return
 
-    if is_text_variant(message.content, ["autism", "autyzm", "autistic"], verbose=CONFIG["verbose"]):
-        LAST_SENT[ch_id] = now
-        if random.random() < 0.7:  # 70% chance to reply
-            try:
-                await message.reply("Czy ktoś powiedział: autyzm??😳😳")
-                print(f"Sent response to channel {ch_id}")
-            except Exception as e:
-                print("Failed to send:", e)
+    if random.random() < 0.7:  # 70% chance to reply
+        await do_reply(message, AUTISM_EVENT)
 
     # Check mentions
     if bot.user in message.mentions or message.mention_everyone:
@@ -136,7 +128,7 @@ async def on_message(message: discord.Message) -> None:
     # to the annoying channel to avoid spamming
     # other channels with memes and replies
     if ch_id == ANNOYING_CHANNEL_ID:
-        await dispatch_event(message)
+        await dispatch_annoying_event(message)
 
     await bot.process_commands(message)
 
