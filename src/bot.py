@@ -38,26 +38,58 @@ AUTISM_EVENT = Event(
 
 MEOW_EVENT = Event(
     triggers=("meow", "miau", "nya", "purr", "mrrr"),
-    reply_pool=("meow meow 🐱✨", "miau~ 😺💫", "kitty detected 🐈‍⬛👀"),
+    reply_pool=(
+        "meow meow 🐱",
+        "mrrr~ 🐾",
+        "nya~ 😺",
+        "*purrs* 🐈",
+        "miau miau 🐱‍👤",
+        "kitty detected 🐈‍⬛",
+    ),
 )
-
 UWU_EVENT = Event(
-    triggers=("uwu", "nuzzles"),
-    reply_pool=("Pls no furry roleplay 🙏😔",),
+    triggers=("uwu", "owo"),
+    reply_pool=(
+        "UwU",
+        "OwO",
+        "UwU what's this?",
+        "OwO *notices you*",
+        "UwU *nuzzles*",
+        ">w<",
+        "( ᵘ ꒳ ᵘ ✼)",
+    ),
 )
-
+ESTROGEN_EVENT = Event(
+    triggers=("estrogen", "oestrogen", "estradiol", "transka"),
+    reply_pool=(
+        "Estrogen detected 🌸",
+        "Oestrogen vibes 🌷",
+        "Estradiol level: high 💊",
+        "E goes brrr 🏳️‍⚧️",
+    ),
+)
 FEMBOY_EVENT = Event(
     triggers=("femboj", "femboy", "femboi"),
-    reply_pool=("Uuuu ... femboyy ✨",),
+    reply_pool=(
+        "Femboy detected 🎀",
+        "Programming socks activated 🧦",
+        "Skirt go spinny 💃",
+        ">w< hewwo femboy",
+        "Thigh highs: equipped ✅",
+    ),
 )
-
 FURRY_EVENT = Event(
     triggers=("furry", "fursuit", "fursona"),
-    reply_pool=("Furry detected - commencing ICBM strike.... 🚀💀",),
+    reply_pool=(
+        "Furry detected 🐺",
+        "OwO *notices your fur*",
+        "Fursona unlocked 🦊",
+        "Awoo~ 🐺",
+    ),
 )
 
 ANNOYING_CHANNEL_ID = 1472578525486780457
-ANNOYING_EVENTS = (MEOW_EVENT, UWU_EVENT, FEMBOY_EVENT, FURRY_EVENT)
+ANNOYING_EVENTS = (MEOW_EVENT, UWU_EVENT, ESTROGEN_EVENT, FEMBOY_EVENT, FURRY_EVENT)
 
 
 async def do_reply(message: discord.Message, event: Event) -> bool:
