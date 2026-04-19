@@ -41,55 +41,64 @@ MEOW_EVENT = Event(
     reply_pool=(
         "meow meow 🐱",
         "mrrr~ 🐾",
-        "nya~ 😺",
         "*purrs* 🐈",
         "miau miau 🐱‍👤",
         "kitty detected 🐈‍⬛",
     ),
 )
-UWU_EVENT = Event(
-    triggers=("uwu", "owo"),
+
+REDBULL_EVENT = Event(
+    triggers=("verstappen", "redbull"),
     reply_pool=(
-        "UwU",
-        "OwO",
-        "UwU what's this?",
-        "OwO *notices you*",
-        "UwU *nuzzles*",
-        ">w<",
-        "( ᵘ ꒳ ᵘ ✼)",
-    ),
-)
-ESTROGEN_EVENT = Event(
-    triggers=("estrogen", "oestrogen", "estradiol", "transka"),
-    reply_pool=(
-        "Estrogen detected 🌸",
-        "Oestrogen vibes 🌷",
-        "Estradiol level: high 💊",
-        "E goes brrr 🏳️‍⚧️",
-    ),
-)
-FEMBOY_EVENT = Event(
-    triggers=("femboj", "femboy", "femboi"),
-    reply_pool=(
-        "Femboy detected 🎀",
-        "Programming socks activated 🧦",
-        "Skirt go spinny 💃",
-        ">w< hewwo femboy",
-        "Thigh highs: equipped ✅",
-    ),
-)
-FURRY_EVENT = Event(
-    triggers=("furry", "fursuit", "fursona"),
-    reply_pool=(
-        "Furry detected 🐺",
-        "OwO *notices your fur*",
-        "Fursona unlocked 🦊",
-        "Awoo~ 🐺",
+        "Tu tu tudu!",
+        "Tu tu tudu!, Max Verstapen",
     ),
 )
 
+# UWU_EVENT = Event(
+#     triggers=("uwu", "owo"),
+#     reply_pool=(
+#         "UwU",
+#         "OwO",
+#         "UwU what's this?",
+#         "OwO *notices you*",
+#         "UwU *nuzzles*",
+#         ">w<",
+#         "( ᵘ ꒳ ᵘ ✼)",
+#     ),
+# )
+# ESTROGEN_EVENT = Event(
+#     triggers=("estrogen", "oestrogen", "estradiol", "transka"),
+#     reply_pool=(
+#         "Estrogen detected 🌸",
+#         "Oestrogen vibes 🌷",
+#         "Estradiol level: high 💊",
+#         "E goes brrr 🏳️‍⚧️",
+#     ),
+# )
+# FEMBOY_EVENT = Event(
+#     triggers=("femboj", "femboy", "femboi"),
+#     reply_pool=(
+#         "Femboy detected 🎀",
+#         "Programming socks activated 🧦",
+#         "Skirt go spinny 💃",
+#         ">w< hewwo femboy",
+#         "Thigh highs: equipped ✅",
+#     ),
+# )
+# FURRY_EVENT = Event(
+#     triggers=("furry", "fursuit", "fursona"),
+#     reply_pool=(
+#         "Furry detected 🐺",
+#         "OwO *notices your fur*",
+#         "Fursona unlocked 🦊",
+#         "Awoo~ 🐺",
+#     ),
+# )
+
 ANNOYING_CHANNEL_ID = 1472578525486780457
-ANNOYING_EVENTS = (MEOW_EVENT, UWU_EVENT, ESTROGEN_EVENT, FEMBOY_EVENT, FURRY_EVENT)
+# ANNOYING_EVENTS = (MEOW_EVENT, UWU_EVENT, ESTROGEN_EVENT, FEMBOY_EVENT, FURRY_EVENT)
+ANNOYING_EVENTS = (MEOW_EVENT, REDBULL_EVENT)
 
 
 async def do_reply(message: discord.Message, event: Event) -> bool:
@@ -138,8 +147,11 @@ async def on_message(message: discord.Message) -> None:
     if now - last < RATE_LIMIT_SECONDS:
         return
 
-    if random.random() < 0.7:  # 70% chance to reply
+    if random.random() < 0.9:  # 90% chance to reply
         await do_reply(message, AUTISM_EVENT)
+
+    if random.random() < 0.8:
+        await dispatch_annoying_event(message)
 
     # Check mentions
     if bot.user in message.mentions or message.mention_everyone:
@@ -159,8 +171,8 @@ async def on_message(message: discord.Message) -> None:
     # Restricing all event functionalities
     # to the annoying channel to avoid spamming
     # other channels with memes and replies
-    if ch_id == ANNOYING_CHANNEL_ID:
-        await dispatch_annoying_event(message)
+    # if ch_id == ANNOYING_CHANNEL_ID:
+    #     await dispatch_annoying_event(message)
 
     await bot.process_commands(message)
 
